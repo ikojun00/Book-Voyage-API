@@ -6,6 +6,7 @@ import { signUpDto } from 'src/dto/signup.dto';
 import { Users } from 'src/entities/users.entity';
 import { UsersService } from 'src/services/users.service';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +18,8 @@ export class AuthService {
   ) {}
   async signIn(signInDto: signInDto): Promise<{ access_token: string }> {
     const user = await this.usersService.findOne(signInDto.email);
-    if (user?.password !== signInDto.password) {
+    const isMatch = await bcrypt.compare(signInDto.password, user?.password);
+    if (!isMatch) {
       throw new UnauthorizedException();
     }
     const payload = { sub: user.id, email: user.email };
@@ -30,6 +32,7 @@ export class AuthService {
     if (user) {
       throw new UnauthorizedException();
     }
+    signUpDto.password = await bcrypt.hash(signUpDto.password, 10);
     return this.usersRepository.save(signUpDto);
   }
 }

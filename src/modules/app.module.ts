@@ -6,6 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Users } from '../entities/users.entity';
 import { ReviewsModule } from './reviews.module';
 import { Reviews } from 'src/entities/reviews.entity';
+import { BookshelfModule } from './bookshelf.module';
+import { Bookshelf } from 'src/entities/bookshelf.entity';
 
 @Module({
   imports: [
@@ -17,7 +19,7 @@ import { Reviews } from 'src/entities/reviews.entity';
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [Users, Reviews],
+      entities: [Users, Reviews, Bookshelf],
       ssl: {
         rejectUnauthorized: true,
       },
@@ -26,6 +28,7 @@ import { Reviews } from 'src/entities/reviews.entity';
     AuthModule,
     UsersModule,
     ReviewsModule,
+    BookshelfModule,
   ],
 })
 export class AppModule {}

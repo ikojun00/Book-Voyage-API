@@ -22,7 +22,7 @@ export class Reviews {
   @Column()
   comment: string;
 
-  @ManyToOne(() => Users, (user) => user.review)
+  @ManyToOne(() => Users, (user) => user.reviews)
   user: Users;
 
   @Column()

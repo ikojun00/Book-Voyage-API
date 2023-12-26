@@ -18,9 +18,12 @@ export class AuthService {
   ) {}
   async signIn(signInDto: signInDto): Promise<{ access_token: string }> {
     const user = await this.usersService.findOne(signInDto.email);
+    if (!user) {
+      throw new UnauthorizedException('Wrong credentials');
+    }
     const isMatch = await bcrypt.compare(signInDto.password, user?.password);
     if (!isMatch) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Wrong credentials');
     }
     const payload = { sub: user.id, email: user.email };
     return {
@@ -30,7 +33,7 @@ export class AuthService {
   async signUp(signUpDto: signUpDto): Promise<signUpDto> {
     const user = await this.usersService.findOne(signUpDto.email);
     if (user) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Email already exists');
     }
     signUpDto.password = await bcrypt.hash(signUpDto.password, 10);
     return this.usersRepository.save(signUpDto);

@@ -1,5 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  OneToOne,
+} from 'typeorm';
 import { Reviews } from './reviews.entity';
+import { Bookshelf } from './bookshelf.entity';
 
 @Entity()
 export class Users {
@@ -18,6 +25,9 @@ export class Users {
   @Column()
   password: string;
 
+  @OneToMany(() => Bookshelf, (bookshelf) => bookshelf.user)
+  bookshelf: Bookshelf[];
+
   @OneToMany(() => Reviews, (review) => review.user)
-  review: Reviews[];
+  reviews: Reviews[];
 }

@@ -36,7 +36,7 @@ export class ReviewsService {
     }
   }
 
-  async getAllLikes(reviewId: number) {
+  async getAllLikes(reviewId: number): Promise<number> {
     try {
       return this.upvoteRepository
         .createQueryBuilder('upvote')
@@ -118,7 +118,7 @@ export class ReviewsService {
     }
   }
 
-  async likeReview(reviewId: number, userId: number) {
+  async likeReview(reviewId: number, userId: number): Promise<Upvote> {
     try {
       const review = await this.reviewRepository.findOne({
         where: {

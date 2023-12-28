@@ -19,12 +19,12 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  signIn(@Body() signInDto: signInDto) {
+  signIn(@Body() signInDto: signInDto): Promise<{ access_token: string }> {
     return this.authService.signIn(signInDto);
   }
 
   @Post('signup')
-  signUp(@Body() signUpDto: signUpDto) {
+  signUp(@Body() signUpDto: signUpDto): Promise<signUpDto> {
     return this.authService.signUp(signUpDto);
   }
 

@@ -10,7 +10,11 @@ export class BookshelfService {
     private bookshelfRepository: Repository<Bookshelf>,
   ) {}
 
-  async addBook(bookId: number, bookshelfDto: BookshelfDto, userId: number) {
+  async addBook(
+    bookId: number,
+    bookshelfDto: BookshelfDto,
+    userId: number,
+  ): Promise<Bookshelf> {
     try {
       const book = await this.bookshelfRepository.findOne({
         where: {
@@ -35,7 +39,7 @@ export class BookshelfService {
     }
   }
 
-  async deleteBook(bookId: number, userId: number) {
+  async deleteBook(bookId: number, userId: number): Promise<Bookshelf> {
     try {
       const book = await this.bookshelfRepository.findOne({
         where: {

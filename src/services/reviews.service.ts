@@ -36,6 +36,19 @@ export class ReviewsService {
     }
   }
 
+  async getAllLikes(reviewId: number) {
+    try {
+      return this.upvoteRepository
+        .createQueryBuilder('upvote')
+        .where('upvote.upvoted = true')
+        .innerJoin('upvote.review', 'review')
+        .andWhere('review.id = :reviewId', { reviewId })
+        .getCount();
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async postReview(
     bookId: number,
     reviewDto: ReviewsDto,
@@ -105,7 +118,7 @@ export class ReviewsService {
     }
   }
 
-  async likeReview(reviewId: number, userId: number): Promise<Reviews> {
+  async likeReview(reviewId: number, userId: number) {
     try {
       const review = await this.reviewRepository.findOne({
         where: {
@@ -129,18 +142,11 @@ export class ReviewsService {
           reviewId,
           userId,
         });
-        await this.upvoteRepository.save(newUpvote);
-        review.likes = (review.likes || 0) + 1;
+        return await this.upvoteRepository.save(newUpvote);
       } else {
         upvote.upvoted = !upvote.upvoted;
-        await this.upvoteRepository.save(upvote);
-
-        review.likes = upvote.upvoted
-          ? (review.likes || 0) + 1
-          : (review.likes || 0) - 1;
+        return await this.upvoteRepository.save(upvote);
       }
-
-      return await this.reviewRepository.save(review);
     } catch (error) {
       throw error;
     }

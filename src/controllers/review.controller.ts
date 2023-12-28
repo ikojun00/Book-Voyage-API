@@ -22,6 +22,11 @@ export class ReviewsController {
     return this.reviewService.getAllBookReviews(bookId);
   }
 
+  @Get('/:reviewId')
+  getAllLikes(@Param('reviewId') reviewId: number) {
+    return this.reviewService.getAllLikes(reviewId);
+  }
+
   @UseGuards(AuthGuard)
   @Post()
   postReview(

@@ -24,15 +24,12 @@ export class Reviews {
   @Column()
   comment: string;
 
-  @Column({ default: 0 })
-  likes: number;
-
   @ManyToOne(() => Users, (user) => user.reviews)
   user: Users;
 
   @Column()
   userId: number;
 
-  @OneToMany(() => Upvote, (upvote) => upvote.user)
+  @OneToMany(() => Upvote, (upvote) => upvote.review)
   upvote: Upvote[];
 }

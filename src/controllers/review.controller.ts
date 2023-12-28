@@ -47,4 +47,10 @@ export class ReviewsController {
   ) {
     return this.reviewService.modifyReview(bookId, review, req.user.sub);
   }
+
+  @UseGuards(AuthGuard)
+  @Patch('upvote/:reviewId')
+  likeReview(@Param('reviewId') reviewId: number, @Request() req) {
+    return this.reviewService.likeReview(reviewId, req.user.sub);
+  }
 }

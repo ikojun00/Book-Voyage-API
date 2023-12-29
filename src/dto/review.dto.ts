@@ -14,8 +14,6 @@ export class ReviewsDto {
 
   @ApiProperty({
     description: 'A comment for the review',
-    minimum: 1,
-    maximum: 3,
     type: String,
     required: false,
   })

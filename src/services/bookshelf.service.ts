@@ -16,6 +16,10 @@ export class BookshelfService {
     userId: number,
   ): Promise<Bookshelf> {
     try {
+      if (bookshelfDto.shelfId > 3 || bookshelfDto.shelfId < 1) {
+        throw new ForbiddenException('Invalid shelf id');
+      }
+
       const book = await this.bookshelfRepository.findOne({
         where: {
           bookId,

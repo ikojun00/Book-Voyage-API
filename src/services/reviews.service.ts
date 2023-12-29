@@ -55,6 +55,10 @@ export class ReviewsService {
     userId: number,
   ): Promise<Reviews> {
     try {
+      if (reviewDto.stars > 5 || reviewDto.stars < 1) {
+        throw new ForbiddenException('Invalid rating');
+      }
+
       const review = await this.reviewRepository.findOne({
         where: {
           bookId,
@@ -101,6 +105,10 @@ export class ReviewsService {
     userId: number,
   ): Promise<Reviews> {
     try {
+      if (reviewDto.stars > 5 || reviewDto.stars < 1) {
+        throw new ForbiddenException('Invalid rating');
+      }
+
       const review = await this.reviewRepository.findOne({
         where: {
           bookId,

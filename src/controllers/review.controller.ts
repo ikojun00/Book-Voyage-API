@@ -14,6 +14,7 @@ import { ReviewsService } from 'src/services/reviews.service';
 import { ReviewsDto } from 'src/dto/review.dto';
 import { Reviews } from 'src/entities/reviews.entity';
 import { Upvote } from 'src/entities/upvote.entity';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('review/:bookId')
 export class ReviewsController {
@@ -29,6 +30,7 @@ export class ReviewsController {
     return this.reviewService.getAllLikes(reviewId);
   }
 
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Post()
   postReview(
@@ -39,6 +41,7 @@ export class ReviewsController {
     return this.reviewService.postReview(bookId, review, req.user.sub);
   }
 
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Delete()
   deleteReview(
@@ -48,6 +51,7 @@ export class ReviewsController {
     return this.reviewService.deleteReview(bookId, req.user.sub);
   }
 
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Patch()
   modifyReview(
@@ -58,6 +62,7 @@ export class ReviewsController {
     return this.reviewService.modifyReview(bookId, review, req.user.sub);
   }
 
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Patch('upvote/:reviewId')
   likeReview(

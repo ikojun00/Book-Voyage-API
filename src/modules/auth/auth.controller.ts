@@ -6,10 +6,10 @@ import {
   UseGuards,
   Request,
 } from '@nestjs/common';
-import { AuthService } from '../services/auth.service';
-import { AuthGuard } from '../guard/auth.guard';
-import { signInDto } from 'src/dto/sigin.dto';
-import { signUpDto } from 'src/dto/signup.dto';
+import { AuthService } from './auth.service';
+import { AuthGuard } from '../../guard/auth.guard';
+import { signInDto } from 'src/modules/auth/dto/sigin.dto';
+import { signUpDto } from 'src/modules/auth/dto/signup.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('auth')

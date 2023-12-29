@@ -6,7 +6,7 @@ import {
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Reviews } from 'src/entities/reviews.entity';
-import { ReviewsDto } from 'src/dto/review.dto';
+import { ReviewsDto } from 'src/modules/reviews/dto/review.dto';
 import { Upvote } from 'src/entities/upvote.entity';
 
 @Injectable()

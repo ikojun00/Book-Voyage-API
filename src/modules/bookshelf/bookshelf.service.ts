@@ -1,6 +1,6 @@
 import { ForbiddenException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { BookshelfDto } from 'src/dto/bookshelf.dto';
+import { BookshelfDto } from 'src/modules/bookshelf/dto/bookshelf.dto';
 import { Bookshelf } from 'src/entities/bookshelf.entity';
 import { Repository } from 'typeorm';
 

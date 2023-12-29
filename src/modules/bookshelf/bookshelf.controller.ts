@@ -9,10 +9,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { BookshelfDto } from 'src/dto/bookshelf.dto';
+import { BookshelfDto } from 'src/modules/bookshelf/dto/bookshelf.dto';
 import { Bookshelf } from 'src/entities/bookshelf.entity';
 import { AuthGuard } from 'src/guard/auth.guard';
-import { BookshelfService } from 'src/services/bookshelf.service';
+import { BookshelfService } from 'src/modules/bookshelf/bookshelf.service';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard)

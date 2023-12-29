@@ -9,9 +9,9 @@ import {
   Delete,
   Patch,
 } from '@nestjs/common';
-import { AuthGuard } from '../guard/auth.guard';
-import { ReviewsService } from 'src/services/reviews.service';
-import { ReviewsDto } from 'src/dto/review.dto';
+import { AuthGuard } from '../../guard/auth.guard';
+import { ReviewsService } from 'src/modules/reviews/reviews.service';
+import { ReviewsDto } from 'src/modules/reviews/dto/review.dto';
 import { Reviews } from 'src/entities/reviews.entity';
 import { Upvote } from 'src/entities/upvote.entity';
 import { ApiBearerAuth } from '@nestjs/swagger';

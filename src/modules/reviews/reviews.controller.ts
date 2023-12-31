@@ -14,8 +14,9 @@ import { ReviewsService } from 'src/modules/reviews/reviews.service';
 import { ReviewsDto } from 'src/modules/reviews/dto/review.dto';
 import { Reviews } from 'src/entities/reviews.entity';
 import { Upvote } from 'src/entities/upvote.entity';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('reviews')
 @Controller('review/:bookId')
 export class ReviewsController {
   constructor(private reviewService: ReviewsService) {}

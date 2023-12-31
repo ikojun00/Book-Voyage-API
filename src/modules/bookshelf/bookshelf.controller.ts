@@ -8,12 +8,13 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { BookshelfDto } from 'src/modules/bookshelf/dto/bookshelf.dto';
 import { Bookshelf } from 'src/entities/bookshelf.entity';
 import { AuthGuard } from 'src/guard/auth.guard';
 import { BookshelfService } from 'src/modules/bookshelf/bookshelf.service';
 
+@ApiTags('bookshelf')
 @ApiBearerAuth()
 @UseGuards(AuthGuard)
 @Controller('bookshelf')

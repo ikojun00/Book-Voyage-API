@@ -7,6 +7,9 @@ import { Users } from 'src/entities/users.entity';
 import { UsersService } from 'src/modules/users/users.service';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { jwtConstants } from './config/constants';
+
+const EXPIRE_TIME = 20 * 1000;
 
 @Injectable()
 export class AuthService {
@@ -16,20 +19,50 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
   ) {}
-  async signIn(signInDto: signInDto): Promise<{ access_token: string }> {
+
+  async validateUser(signInDto: signInDto) {
     const user = await this.usersService.findOne(signInDto.email);
-    if (!user) {
-      throw new UnauthorizedException('Wrong credentials');
-    }
     const isMatch = await bcrypt.compare(signInDto.password, user?.password);
-    if (!isMatch) {
+    if (!user || !isMatch) {
       throw new UnauthorizedException('Wrong credentials');
     }
-    const payload = { sub: user.id, email: user.email };
+    return { sub: user.id, email: user.email };
+  }
+
+  async refreshToken(user) {
+    const payload = {
+      username: user.username,
+      sub: user.sub,
+    };
+
     return {
-      access_token: await this.jwtService.signAsync(payload),
+      accessToken: await this.jwtService.signAsync(payload, {
+        expiresIn: '20s',
+        secret: jwtConstants.secret,
+      }),
+      refreshToken: await this.jwtService.signAsync(payload, {
+        expiresIn: '7d',
+        secret: jwtConstants.secretRefreshToken,
+      }),
+      expiresIn: new Date().setTime(new Date().getTime() + EXPIRE_TIME),
     };
   }
+
+  async signIn(signInDto: signInDto): Promise<any> {
+    const payload = await this.validateUser(signInDto);
+    return {
+      access_token: await this.jwtService.signAsync(payload, {
+        expiresIn: '20s',
+        secret: jwtConstants.secret,
+      }),
+      refresh_token: await this.jwtService.signAsync(payload, {
+        expiresIn: '7d',
+        secret: jwtConstants.secretRefreshToken,
+      }),
+      expiresIn: new Date().setTime(new Date().getTime() + EXPIRE_TIME),
+    };
+  }
+
   async signUp(signUpDto: signUpDto): Promise<signUpDto> {
     const user = await this.usersService.findOne(signUpDto.email);
     if (user) {

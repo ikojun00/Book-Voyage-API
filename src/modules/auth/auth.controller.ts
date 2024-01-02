@@ -7,10 +7,11 @@ import {
   Request,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthGuard } from '../../guard/auth.guard';
 import { signInDto } from 'src/modules/auth/dto/sigin.dto';
 import { signUpDto } from 'src/modules/auth/dto/signup.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { RefreshJwtGuard } from 'src/guard/refresh.guard';
+import { AuthGuard } from 'src/guard/auth.guard';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -18,13 +19,19 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('login')
-  signIn(@Body() signInDto: signInDto): Promise<{ access_token: string }> {
+  signIn(@Body() signInDto: signInDto): Promise<any> {
     return this.authService.signIn(signInDto);
   }
 
   @Post('signup')
   signUp(@Body() signUpDto: signUpDto): Promise<signUpDto> {
     return this.authService.signUp(signUpDto);
+  }
+
+  @UseGuards(RefreshJwtGuard)
+  @Post('refresh')
+  refreshToken(@Request() req) {
+    return this.authService.refreshToken(req.user);
   }
 
   @ApiBearerAuth()

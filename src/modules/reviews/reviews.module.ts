@@ -5,6 +5,7 @@ import { Reviews } from 'src/entities/reviews.entity';
 import { ReviewsService } from 'src/modules/reviews/reviews.service';
 import { UsersModule } from '../users/users.module';
 import { Upvote } from 'src/entities/upvote.entity';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -13,6 +14,6 @@ import { Upvote } from 'src/entities/upvote.entity';
     TypeOrmModule.forFeature([Upvote]),
   ],
   controllers: [ReviewsController],
-  providers: [ReviewsService],
+  providers: [ReviewsService, JwtService],
 })
 export class ReviewsModule {}

@@ -26,13 +26,17 @@ export class AuthService {
     if (!user || !isMatch) {
       throw new UnauthorizedException('Wrong credentials');
     }
-    return { sub: user.id, email: user.email };
+    return {
+      sub: user.id,
+      email: user.email,
+      firstName: user.firstName,
+    };
   }
 
   async refreshToken(user) {
     const payload = {
-      username: user.username,
       sub: user.sub,
+      email: user.email,
     };
 
     return {
@@ -51,15 +55,18 @@ export class AuthService {
   async signIn(signInDto: signInDto): Promise<any> {
     const payload = await this.validateUser(signInDto);
     return {
-      access_token: await this.jwtService.signAsync(payload, {
-        expiresIn: '20s',
-        secret: jwtConstants.secret,
-      }),
-      refresh_token: await this.jwtService.signAsync(payload, {
-        expiresIn: '7d',
-        secret: jwtConstants.secretRefreshToken,
-      }),
-      expiresIn: new Date().setTime(new Date().getTime() + EXPIRE_TIME),
+      user: { ...payload },
+      backendTokens: {
+        access_token: await this.jwtService.signAsync(payload, {
+          expiresIn: '20s',
+          secret: jwtConstants.secret,
+        }),
+        refresh_token: await this.jwtService.signAsync(payload, {
+          expiresIn: '7d',
+          secret: jwtConstants.secretRefreshToken,
+        }),
+        expiresIn: new Date().setTime(new Date().getTime() + EXPIRE_TIME),
+      },
     };
   }
 

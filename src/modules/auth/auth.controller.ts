@@ -37,7 +37,7 @@ export class AuthController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Get('profile')
-  getProfile(@Request() req) {
+  getProfile(@Request() req): Promise<Request> {
     return req.user;
   }
 }

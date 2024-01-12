@@ -22,8 +22,11 @@ export class AuthService {
 
   async validateUser(signInDto: signInDto) {
     const user = await this.usersService.findOne(signInDto.email);
+    if (!user) {
+      throw new UnauthorizedException('Wrong credentials');
+    }
     const isMatch = await bcrypt.compare(signInDto.password, user?.password);
-    if (!user || !isMatch) {
+    if (!isMatch) {
       throw new UnauthorizedException('Wrong credentials');
     }
     return {

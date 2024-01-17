@@ -23,6 +23,7 @@ export class ReviewsService {
       return this.reviewRepository
         .createQueryBuilder('review')
         .select([
+          'review.id',
           'review.stars',
           'review.comment',
           'user.firstName',

@@ -26,6 +26,13 @@ export class ReviewsController {
     return this.reviewService.getAllBookReviews(bookId);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @Get('/user')
+  isReviewPosted(@Param('bookId') bookId: number, @Request() req) {
+    return this.reviewService.isReviewPosted(bookId, req.user.sub);
+  }
+
   @Get('/:reviewId')
   getAllLikes(@Param('reviewId') reviewId: number): Promise<number> {
     return this.reviewService.getAllLikes(reviewId);
@@ -65,7 +72,7 @@ export class ReviewsController {
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
-  @Patch('upvote/:reviewId')
+  @Patch('/upvote/:reviewId')
   likeReview(
     @Param('reviewId') reviewId: number,
     @Request() req,
@@ -75,7 +82,7 @@ export class ReviewsController {
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
-  @Get('upvote/:reviewId')
+  @Get('/upvote/:reviewId')
   isReviewLiked(
     @Param('reviewId') reviewId: number,
     @Request() req,

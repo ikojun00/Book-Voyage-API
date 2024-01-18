@@ -50,6 +50,28 @@ export class ReviewsService {
     }
   }
 
+  async isReviewPosted(bookId: number, userId: number) {
+    try {
+      return this.reviewRepository
+        .createQueryBuilder('review')
+        .select([
+          'review.id',
+          'review.stars',
+          'review.comment',
+          'user.firstName',
+          'user.lastName',
+        ])
+        .innerJoin('review.user', 'user')
+        .where('review.bookId = :bookId AND user.id = :userId', {
+          bookId,
+          userId,
+        })
+        .getOne();
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async postReview(
     bookId: number,
     reviewDto: ReviewsDto,

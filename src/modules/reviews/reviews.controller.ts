@@ -72,4 +72,14 @@ export class ReviewsController {
   ): Promise<Upvote> {
     return this.reviewService.likeReview(reviewId, req.user.sub);
   }
+
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @Get('upvote/:reviewId')
+  isReviewLiked(
+    @Param('reviewId') reviewId: number,
+    @Request() req,
+  ): Promise<boolean> {
+    return this.reviewService.isReviewLiked(reviewId, req.user.sub);
+  }
 }

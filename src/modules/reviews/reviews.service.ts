@@ -160,4 +160,33 @@ export class ReviewsService {
       throw error;
     }
   }
+
+  async isReviewLiked(reviewId: number, userId: number): Promise<boolean> {
+    try {
+      const review = await this.reviewRepository.findOne({
+        where: {
+          id: reviewId,
+        },
+      });
+
+      if (!review) {
+        throw new NotFoundException('Review not found');
+      }
+
+      const upvote = await this.upvoteRepository.findOne({
+        where: {
+          reviewId,
+          userId,
+        },
+      });
+
+      if (!upvote) {
+        return false;
+      }
+
+      return upvote.upvoted === true ? true : false;
+    } catch (error) {
+      throw error;
+    }
+  }
 }

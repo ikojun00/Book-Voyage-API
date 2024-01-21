@@ -61,7 +61,7 @@ export class AuthService {
       user: { ...payload },
       backendTokens: {
         accessToken: await this.jwtService.signAsync(payload, {
-          expiresIn: '20s',
+          expiresIn: '1h',
           secret: jwtConstants.secret,
         }),
         refreshToken: await this.jwtService.signAsync(payload, {

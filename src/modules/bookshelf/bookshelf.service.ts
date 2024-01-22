@@ -43,7 +43,7 @@ export class BookshelfService {
       });
 
       if (book) {
-        return await this.bookshelfRepository.remove(book);
+        await this.bookshelfRepository.remove(book);
       }
 
       return this.bookshelfRepository.save({

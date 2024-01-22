@@ -81,7 +81,7 @@ export class BookshelfService {
         .createQueryBuilder('bookshelf')
         .select([
           'bookshelf.shelfId AS shelf',
-          'GROUP_CONCAT(bookshelf.bookId) AS bookIds',
+          'JSON_ARRAYAGG(bookshelf.bookId) AS bookIds',
         ])
         .where('bookshelf.userId = :userId', { userId })
         .groupBy('bookshelf.shelfId')

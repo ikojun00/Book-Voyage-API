@@ -10,6 +10,21 @@ export class BookshelfService {
     private bookshelfRepository: Repository<Bookshelf>,
   ) {}
 
+  async getBookStatus(bookId: number, userId: number): Promise<Bookshelf> {
+    try {
+      return this.bookshelfRepository
+        .createQueryBuilder('bookshelf')
+        .select('bookshelf.shelfId')
+        .where('bookshelf.userId = :userId AND bookshelf.bookId = :bookId', {
+          userId,
+          bookId,
+        })
+        .getOne();
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async addBook(
     bookId: number,
     bookshelfDto: BookshelfDto,
@@ -28,9 +43,7 @@ export class BookshelfService {
       });
 
       if (book) {
-        throw new ForbiddenException(
-          'You already have this book in the bookshelf',
-        );
+        return await this.bookshelfRepository.remove(book);
       }
 
       return this.bookshelfRepository.save({

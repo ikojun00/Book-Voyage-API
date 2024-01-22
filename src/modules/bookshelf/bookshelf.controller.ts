@@ -21,6 +21,14 @@ import { BookshelfService } from 'src/modules/bookshelf/bookshelf.service';
 export class BookshelfController {
   constructor(private bookshelfService: BookshelfService) {}
 
+  @Get('/:bookId')
+  getBookStatus(
+    @Param('bookId') bookId: number,
+    @Request() req,
+  ): Promise<Bookshelf> {
+    return this.bookshelfService.getBookStatus(bookId, req.user.sub);
+  }
+
   @Post('/:bookId')
   addBook(
     @Param('bookId') bookId: number,

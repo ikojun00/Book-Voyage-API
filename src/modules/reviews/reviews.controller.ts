@@ -26,6 +26,11 @@ export class ReviewsController {
     return this.reviewService.getAllBookReviews(bookId);
   }
 
+  @Get('/averageRating')
+  getAverageRating(@Param('bookId') bookId: number) {
+    return this.reviewService.getAverageRating(bookId);
+  }
+
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Get('/user')

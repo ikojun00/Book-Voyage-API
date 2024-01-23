@@ -37,6 +37,18 @@ export class ReviewsService {
     }
   }
 
+  async getAverageRating(bookId: number) {
+    try {
+      return await this.reviewRepository
+        .createQueryBuilder('review')
+        .select('AVG(review.stars) as averageRating')
+        .where('review.bookId = :bookId', { bookId })
+        .getRawOne();
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async getAllLikes(reviewId: number): Promise<number> {
     try {
       return this.upvoteRepository

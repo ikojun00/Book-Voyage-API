@@ -140,7 +140,7 @@ export class BookshelfService {
 
   async getBookshelf(userId: number) {
     try {
-      const bookshelf = this.bookshelfRepository
+      return this.bookshelfRepository
         .createQueryBuilder('bookshelf')
         .select([
           'bookshelf.shelfId AS shelf',
@@ -149,12 +149,6 @@ export class BookshelfService {
         .where('bookshelf.userId = :userId', { userId })
         .groupBy('bookshelf.shelfId')
         .getRawMany();
-      const reading = (await bookshelf).map((item) => {
-        if (item.shelf === 1) {
-          item;
-        }
-      });
-      return (await bookshelf).concat(reading);
     } catch (error) {
       throw error;
     }

@@ -13,6 +13,7 @@ import { BookshelfDto } from 'src/modules/bookshelf/dto/bookshelf.dto';
 import { Bookshelf } from 'src/entities/bookshelf.entity';
 import { AuthGuard } from 'src/guard/auth.guard';
 import { BookshelfService } from 'src/modules/bookshelf/bookshelf.service';
+import { ProgressDto } from './dto/progress.dto';
 
 @ApiTags('bookshelf')
 @ApiBearerAuth()
@@ -38,9 +39,27 @@ export class BookshelfController {
     return this.bookshelfService.addBook(bookId, bookshelfDto, req.user.sub);
   }
 
+  @Post('/:bookId/reading')
+  changeReadingStatus(
+    @Param('bookId') bookId: number,
+    @Body() progressDto: ProgressDto,
+    @Request() req,
+  ) {
+    return this.bookshelfService.changeReadingStatus(
+      bookId,
+      req.user.sub,
+      progressDto,
+    );
+  }
+
   @Get()
   getBookshelf(@Request() req) {
     return this.bookshelfService.getBookshelf(req.user.sub);
+  }
+
+  @Get('/:bookId/reading')
+  getReadingStatus(@Param('bookId') bookId: number, @Request() req) {
+    return this.bookshelfService.getReadingStatus(bookId, req.user.sub);
   }
 
   @Delete('/:bookId')

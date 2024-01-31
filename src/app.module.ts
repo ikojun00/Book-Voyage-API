@@ -5,7 +5,7 @@ import { UsersModule } from './modules/users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ReviewsModule } from './modules/reviews/reviews.module';
 import { BookshelfModule } from './modules/bookshelf/bookshelf.module';
-import typeorm from 'src/config/typeorm';
+import typeorm from './config/typeorm';
 
 @Module({
   imports: [

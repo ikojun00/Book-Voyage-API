@@ -1,13 +1,16 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { signInDto } from 'src/modules/auth/dto/sigin.dto';
-import { signUpDto } from 'src/modules/auth/dto/signup.dto';
-import { Users } from 'src/entities/users.entity';
-import { UsersService } from 'src/modules/users/users.service';
+import { signInDto } from '../auth/dto/sigin.dto';
+import { signUpDto } from '../auth/dto/signup.dto';
+import { Users } from '../../entities/users.entity';
+import { UsersService } from '../users/users.service';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { jwtConstants } from './config/constants';
+import { TokenDto } from './dto/token.dto';
+import { PayloadDto } from './dto/payload.dto';
+import { ValidationDto } from './dto/validation.dto';
 
 const EXPIRE_TIME = 20 * 1000;
 
@@ -20,14 +23,14 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(signInDto: signInDto) {
+  async validateUser(signInDto: signInDto): Promise<PayloadDto> {
     const user = await this.usersService.findOne(signInDto.email);
     if (!user) {
-      throw new UnauthorizedException('Wrong credentials');
+      throw new UnauthorizedException('Wrong credentials!');
     }
     const isMatch = await bcrypt.compare(signInDto.password, user?.password);
     if (!isMatch) {
-      throw new UnauthorizedException('Wrong credentials');
+      throw new UnauthorizedException('Wrong credentials!');
     }
     return {
       sub: user.id,
@@ -36,7 +39,7 @@ export class AuthService {
     };
   }
 
-  async refreshToken(user) {
+  async refreshToken(user: PayloadDto): Promise<TokenDto> {
     const payload = {
       sub: user.sub,
       email: user.email,
@@ -55,7 +58,7 @@ export class AuthService {
     };
   }
 
-  async signIn(signInDto: signInDto): Promise<any> {
+  async signIn(signInDto: signInDto): Promise<ValidationDto> {
     const payload = await this.validateUser(signInDto);
     return {
       user: { ...payload },
@@ -76,7 +79,7 @@ export class AuthService {
   async signUp(signUpDto: signUpDto): Promise<signUpDto> {
     const user = await this.usersService.findOne(signUpDto.email);
     if (user) {
-      throw new UnauthorizedException('Email already exists');
+      throw new UnauthorizedException('Email already exists!');
     }
     signUpDto.password = await bcrypt.hash(signUpDto.password, 10);
     return this.usersRepository.save(signUpDto);

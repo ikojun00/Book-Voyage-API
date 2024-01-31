@@ -10,11 +10,11 @@ import {
   Patch,
 } from '@nestjs/common';
 import { AuthGuard } from '../../guard/auth.guard';
-import { ReviewsService } from 'src/modules/reviews/reviews.service';
-import { ReviewsDto } from 'src/modules/reviews/dto/review.dto';
-import { Reviews } from 'src/entities/reviews.entity';
-import { Upvote } from 'src/entities/upvote.entity';
+import { Reviews } from '../../entities/reviews.entity';
+import { Upvote } from '../../entities/upvote.entity';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ReviewsService } from './reviews.service';
+import { ReviewsDto } from './dto/review.dto';
 
 @ApiTags('reviews')
 @Controller('review/:bookId')

@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BookshelfService } from 'src/modules/bookshelf/bookshelf.service';
-import { BookshelfController } from 'src/modules/bookshelf/bookshelf.controller';
-import { Bookshelf } from 'src/entities/bookshelf.entity';
+import { Bookshelf } from '../../entities/bookshelf.entity';
 import { JwtService } from '@nestjs/jwt';
-import { Progress } from 'src/entities/progress.entity';
+import { Progress } from '../../entities/progress.entity';
+import { BookshelfController } from './bookshelf.controller';
+import { BookshelfService } from './bookshelf.service';
 
 @Module({
   imports: [

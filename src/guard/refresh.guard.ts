@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
-import { jwtConstants } from 'src/modules/auth/config/constants';
+import { jwtConstants } from '../modules/auth/config/constants';
 
 @Injectable()
 export class RefreshJwtGuard implements CanActivate {

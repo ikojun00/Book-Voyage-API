@@ -7,11 +7,11 @@ import {
   Request,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { signInDto } from 'src/modules/auth/dto/sigin.dto';
-import { signUpDto } from 'src/modules/auth/dto/signup.dto';
+import { signInDto } from '../auth/dto/sigin.dto';
+import { signUpDto } from '../auth/dto/signup.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { RefreshJwtGuard } from 'src/guard/refresh.guard';
-import { AuthGuard } from 'src/guard/auth.guard';
+import { RefreshJwtGuard } from '../../guard/refresh.guard';
+import { AuthGuard } from '../../guard/auth.guard';
 
 @ApiTags('auth')
 @Controller('auth')

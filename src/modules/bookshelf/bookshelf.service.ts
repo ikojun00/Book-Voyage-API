@@ -1,10 +1,10 @@
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { BookshelfDto } from 'src/modules/bookshelf/dto/bookshelf.dto';
-import { Bookshelf } from 'src/entities/bookshelf.entity';
+import { Bookshelf } from '../../entities/bookshelf.entity';
 import { Repository } from 'typeorm';
-import { Progress } from 'src/entities/progress.entity';
+import { Progress } from '../../entities/progress.entity';
 import { ProgressDto } from './dto/progress.dto';
+import { BookshelfDto } from './dto/bookshelf.dto';
 
 export class BookshelfService {
   constructor(
@@ -29,6 +29,29 @@ export class BookshelfService {
     }
   }
 
+  async updateBook(
+    book: Bookshelf,
+    bookshelfDto: BookshelfDto,
+  ): Promise<Bookshelf> {
+    const reading = await this.progressRepository.findOne({
+      where: {
+        bookshelfId: book.id,
+      },
+    });
+    // reading progress needs to exist on currently reading
+    if (!reading && bookshelfDto.shelfId === 1)
+      await this.progressRepository.save({
+        bookshelfId: book.id,
+        percentage: 0,
+      });
+    // reading progress needs to be removed when book is not being currently read
+    else if (reading && bookshelfDto.shelfId !== 1)
+      await this.progressRepository.remove(reading);
+
+    Object.assign(book, bookshelfDto);
+    return this.bookshelfRepository.save(book);
+  }
+
   async addBook(
     bookId: number,
     bookshelfDto: BookshelfDto,
@@ -36,7 +59,7 @@ export class BookshelfService {
   ): Promise<Bookshelf> {
     try {
       if (bookshelfDto.shelfId > 3 || bookshelfDto.shelfId < 1) {
-        throw new ForbiddenException('Invalid shelf id');
+        throw new ForbiddenException('Invalid shelf id!');
       }
 
       const book = await this.bookshelfRepository.findOne({
@@ -47,35 +70,21 @@ export class BookshelfService {
       });
 
       if (book) {
-        const reading = await this.progressRepository.findOne({
-          where: {
-            bookshelfId: book.id,
-          },
-        });
-        if (!reading && bookshelfDto.shelfId === 1)
+        return await this.updateBook(book, bookshelfDto);
+      } else {
+        if (bookshelfDto.shelfId === 1) {
           await this.progressRepository.save({
             bookshelfId: book.id,
             percentage: 0,
           });
-        else if (reading && bookshelfDto.shelfId !== 1)
-          await this.progressRepository.remove(reading);
+        }
 
-        Object.assign(book, bookshelfDto);
-        return this.bookshelfRepository.save(book);
-      }
-
-      if (bookshelfDto.shelfId === 1) {
-        await this.progressRepository.save({
-          bookshelfId: book.id,
-          percentage: 0,
+        return this.bookshelfRepository.save({
+          userId,
+          bookId,
+          ...bookshelfDto,
         });
       }
-
-      return this.bookshelfRepository.save({
-        userId,
-        bookId,
-        ...bookshelfDto,
-      });
     } catch (error) {
       throw error;
     }
@@ -91,7 +100,7 @@ export class BookshelfService {
       });
 
       if (!book) {
-        throw new ForbiddenException('This book is not in your bookshelf');
+        throw new ForbiddenException('This book is not in your bookshelf!');
       }
 
       if (book.shelfId === 1) {
@@ -113,7 +122,7 @@ export class BookshelfService {
     bookId: number,
     userId: number,
     progressDto: ProgressDto,
-  ) {
+  ): Promise<Progress> {
     const book = await this.bookshelfRepository.findOne({
       where: {
         bookId,
@@ -122,7 +131,7 @@ export class BookshelfService {
     });
 
     if (!book || book.shelfId !== 1) {
-      throw new ForbiddenException('Cannot change reading status');
+      throw new ForbiddenException('Cannot change reading status!');
     }
 
     const reading = await this.progressRepository.findOne({
@@ -132,7 +141,7 @@ export class BookshelfService {
     });
 
     if (!reading) {
-      throw new NotFoundException('Reading status not found');
+      throw new NotFoundException('Reading status not found!');
     }
     Object.assign(reading, progressDto);
     return await this.progressRepository.save(reading);

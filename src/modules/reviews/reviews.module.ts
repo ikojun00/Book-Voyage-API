@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ReviewsController } from 'src/modules/reviews/reviews.controller';
-import { Reviews } from 'src/entities/reviews.entity';
-import { ReviewsService } from 'src/modules/reviews/reviews.service';
 import { UsersModule } from '../users/users.module';
-import { Upvote } from 'src/entities/upvote.entity';
 import { JwtService } from '@nestjs/jwt';
+import { ReviewsController } from './reviews.controller';
+import { ReviewsService } from './reviews.service';
+import { Upvote } from '../../entities/upvote.entity';
+import { Reviews } from '../../entities/reviews.entity';
 
 @Module({
   imports: [

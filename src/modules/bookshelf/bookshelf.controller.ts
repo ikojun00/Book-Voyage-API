@@ -9,11 +9,11 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { BookshelfDto } from 'src/modules/bookshelf/dto/bookshelf.dto';
-import { Bookshelf } from 'src/entities/bookshelf.entity';
-import { AuthGuard } from 'src/guard/auth.guard';
-import { BookshelfService } from 'src/modules/bookshelf/bookshelf.service';
+import { Bookshelf } from '../../entities/bookshelf.entity';
+import { AuthGuard } from '../../guard/auth.guard';
 import { ProgressDto } from './dto/progress.dto';
+import { BookshelfService } from './bookshelf.service';
+import { BookshelfDto } from './dto/bookshelf.dto';
 
 @ApiTags('bookshelf')
 @ApiBearerAuth()

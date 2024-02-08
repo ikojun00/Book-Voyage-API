@@ -143,6 +143,11 @@ export class BookshelfService {
     if (!reading) {
       throw new NotFoundException('Reading status not found!');
     }
+
+    if (progressDto.percentage < 0 || progressDto.percentage > 100) {
+      throw new ForbiddenException('Setting invalid number!');
+    }
+
     Object.assign(reading, progressDto);
     return await this.progressRepository.save(reading);
   }

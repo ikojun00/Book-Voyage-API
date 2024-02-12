@@ -12,7 +12,7 @@ export class GenreController {
     return this.genreService.getBooksByGenre(title);
   }
 
-  @Get('/:bookId')
+  @Get('/book/:bookId')
   getGenreByBookID(@Param('bookId') bookId: number) {
     return this.genreService.getGenreByBookId(bookId);
   }

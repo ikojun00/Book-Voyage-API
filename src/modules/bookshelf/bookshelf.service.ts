@@ -74,7 +74,7 @@ export class BookshelfService {
       } else {
         if (bookshelfDto.shelfId === 1) {
           await this.progressRepository.save({
-            bookshelfId: book.id,
+            bookshelfId: bookId,
             percentage: 0,
           });
         }

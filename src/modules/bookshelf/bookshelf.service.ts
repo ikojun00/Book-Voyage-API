@@ -73,10 +73,16 @@ export class BookshelfService {
         return await this.updateBook(book, bookshelfDto);
       } else {
         if (bookshelfDto.shelfId === 1) {
+          const bookshelfReport = await this.bookshelfRepository.save({
+            userId,
+            bookId,
+            ...bookshelfDto,
+          });
           await this.progressRepository.save({
-            bookshelfId: bookId,
+            bookshelfId: book.id,
             percentage: 0,
           });
+          return bookshelfReport;
         }
 
         return this.bookshelfRepository.save({

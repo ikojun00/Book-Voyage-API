@@ -79,7 +79,7 @@ export class BookshelfService {
             ...bookshelfDto,
           });
           await this.progressRepository.save({
-            bookshelfId: bookshelfReport.bookId,
+            bookshelfId: bookshelfReport.id,
             percentage: 0,
           });
           return bookshelfReport;

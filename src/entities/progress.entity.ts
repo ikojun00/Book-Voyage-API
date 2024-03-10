@@ -20,5 +20,5 @@ export class Progress {
   bookshelfId: number;
 
   @Column()
-  percentage: number;
+  completion_percentage: number;
 }

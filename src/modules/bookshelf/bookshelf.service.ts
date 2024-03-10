@@ -42,7 +42,7 @@ export class BookshelfService {
     if (!reading && bookshelfDto.shelfId === 1)
       await this.progressRepository.save({
         bookshelfId: book.id,
-        percentage: 0,
+        completion_percentage: 0,
       });
     // reading progress needs to be removed when book is not being currently read
     else if (reading && bookshelfDto.shelfId !== 1)
@@ -80,7 +80,7 @@ export class BookshelfService {
           });
           await this.progressRepository.save({
             bookshelfId: bookshelfReport.id,
-            percentage: 0,
+            completion_percentage: 0,
           });
           return bookshelfReport;
         }
@@ -150,7 +150,10 @@ export class BookshelfService {
       throw new NotFoundException('Reading status not found!');
     }
 
-    if (progressDto.percentage < 0 || progressDto.percentage > 100) {
+    if (
+      progressDto.completion_percentage < 0 ||
+      progressDto.completion_percentage > 100
+    ) {
       throw new ForbiddenException('Setting invalid number!');
     }
 

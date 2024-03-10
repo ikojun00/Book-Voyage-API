@@ -10,5 +10,5 @@ export class ProgressDto {
   })
   @IsNotEmpty()
   @IsNumber()
-  percentage: number;
+  completion_percentage: number;
 }

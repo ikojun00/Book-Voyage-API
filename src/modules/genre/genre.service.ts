@@ -25,11 +25,12 @@ export class GenreService {
 
   async getBooksByGenre(title: string) {
     try {
+      const capitalizedTitle = title.charAt(0).toUpperCase() + title.slice(1);
       return this.booksGenreRepository
         .createQueryBuilder('booksGenre')
         .select(['booksGenre.bookId', 'genre.title'])
         .innerJoin('booksGenre.genre', 'genre')
-        .where('genre.title = :title', { title })
+        .where('genre.title = :title', { title: capitalizedTitle })
         .getMany();
     } catch (error) {
       throw error;

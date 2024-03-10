@@ -167,7 +167,7 @@ export class BookshelfService {
         .createQueryBuilder('bookshelf')
         .select([
           'bookshelf.shelfId AS shelf',
-          'JSON_ARRAYAGG(bookshelf.bookId) AS bookIds',
+          'json_agg(bookshelf.bookId) AS bookIds',
         ])
         .where('bookshelf.userId = :userId', { userId })
         .groupBy('bookshelf.shelfId')
@@ -181,7 +181,11 @@ export class BookshelfService {
     try {
       return this.progressRepository
         .createQueryBuilder('progress')
-        .select(['bookshelf.bookId', 'bookshelf.userId', 'progress.percentage'])
+        .select([
+          'bookshelf.bookId',
+          'bookshelf.userId',
+          'progress.completion_percentage',
+        ])
         .innerJoin('progress.bookshelf', 'bookshelf')
         .where('bookshelf.bookId = :bookId AND bookshelf.userId = :userId', {
           bookId,

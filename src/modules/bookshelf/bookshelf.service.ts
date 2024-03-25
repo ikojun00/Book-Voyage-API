@@ -167,7 +167,7 @@ export class BookshelfService {
         .createQueryBuilder('bookshelf')
         .select([
           'bookshelf.shelfId AS shelf',
-          'json_agg(bookshelf.bookId) AS bookids',
+          'json_agg(bookshelf.bookId) AS "bookIds"',
         ])
         .where('bookshelf.userId = :userId', { userId })
         .groupBy('bookshelf.shelfId')

@@ -20,6 +20,9 @@ export class Users {
   @Column()
   password: string;
 
+  @Column()
+  readingGoal: number;
+
   @OneToMany(() => Bookshelf, (bookshelf) => bookshelf.user)
   bookshelf: Bookshelf[];
 

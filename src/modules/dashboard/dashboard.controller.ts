@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Request,
-} from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { DashboardService } from './dashboard.service';
 
@@ -18,5 +10,10 @@ export class DashboardController {
   @Get('/popular')
   getPopularBooks() {
     return this.dashboardService.getPopularBooks();
+  }
+
+  @Get('/reviews')
+  getLatestBookReviews() {
+    return this.dashboardService.getLatestBookReviews();
   }
 }

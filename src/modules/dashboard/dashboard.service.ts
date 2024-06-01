@@ -22,4 +22,25 @@ export class DashboardService {
       throw error;
     }
   }
+
+  async getLatestBookReviews() {
+    try {
+      return this.reviewRepository
+        .createQueryBuilder('review')
+        .select([
+          'review.id',
+          'review.bookId',
+          'review.stars',
+          'review.comment',
+          'user.firstName',
+          'user.lastName',
+        ])
+        .innerJoin('review.user', 'user')
+        .orderBy('review.id', 'DESC')
+        .limit(4)
+        .getMany();
+    } catch (error) {
+      throw error;
+    }
+  }
 }

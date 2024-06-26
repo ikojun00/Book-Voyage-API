@@ -1,12 +1,9 @@
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from '../../entities/users.entity';
 import { ReadingGoalDto } from './dto/readingGoal.dto';
+import { UsersDto } from './dto/users.dto';
 
 @Injectable()
 export class UsersService {
@@ -48,6 +45,26 @@ export class UsersService {
       Object.assign(user, readingGoal);
       await this.usersRepository.save(user);
       return readingGoal;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async changeProfile(userId: number, usersInfo: UsersDto) {
+    try {
+      const user = await this.usersRepository.findOne({
+        where: {
+          id: userId,
+        },
+      });
+
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+
+      Object.assign(user, usersInfo);
+      await this.usersRepository.save(user);
+      return usersInfo;
     } catch (error) {
       throw error;
     }

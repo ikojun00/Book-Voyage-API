@@ -13,6 +13,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../../guard/auth.guard';
 import { UsersService } from './users.service';
 import { ReadingGoalDto } from './dto/readingGoal.dto';
+import { UsersDto } from './dto/users.dto';
 
 @ApiTags('users')
 @ApiBearerAuth()
@@ -29,5 +30,10 @@ export class UsersController {
   @Patch('/readingGoal')
   changeReadingGoal(@Request() req, @Body() readingGoal: ReadingGoalDto) {
     return this.usersService.changeReadingGoal(req.user.sub, readingGoal);
+  }
+
+  @Patch('/profile')
+  changeProfile(@Request() req, @Body() usersInfo: UsersDto) {
+    return this.usersService.changeProfile(req.user.sub, usersInfo);
   }
 }

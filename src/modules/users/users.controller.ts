@@ -1,11 +1,8 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
-  Param,
   Patch,
-  Post,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -25,6 +22,16 @@ export class UsersController {
   @Get('/readingGoal')
   getReadingGoal(@Request() req) {
     return this.usersService.getReadingGoal(req.user.sub);
+  }
+
+  @Get('/profile')
+  getProfile(@Request() req) {
+    return this.usersService.getProfile(req.user.sub);
+  }
+
+  @Get('/profileImages')
+  getProfileImages() {
+    return this.usersService.getProfileImages();
   }
 
   @Patch('/readingGoal')

@@ -4,12 +4,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from '../../entities/users.entity';
 import { ReadingGoalDto } from './dto/readingGoal.dto';
 import { UsersDto } from './dto/users.dto';
+import { ProfileImage } from 'src/entities/profileImage.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(Users)
     private usersRepository: Repository<Users>,
+    @InjectRepository(ProfileImage)
+    private profileImageRepository: Repository<ProfileImage>,
   ) {}
 
   async findOne(email: string): Promise<Users | undefined> {
@@ -25,6 +28,29 @@ export class UsersService {
           userId,
         })
         .getOne();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getProfile(userId: number) {
+    try {
+      return this.usersRepository
+        .createQueryBuilder('users')
+        .innerJoinAndSelect('users.profileImage', 'profileImage')
+        .where('users.id = :userId', { userId })
+        .getOne();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getProfileImages() {
+    try {
+      return this.profileImageRepository
+        .createQueryBuilder('profileImage')
+        .select(['profileImage.id', 'profileImage.image'])
+        .getMany();
     } catch (error) {
       throw error;
     }

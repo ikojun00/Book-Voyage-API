@@ -1,7 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToOne,
+} from 'typeorm';
 import { Reviews } from './reviews.entity';
 import { Bookshelf } from './bookshelf.entity';
 import { Upvote } from './upvote.entity';
+import { ProfileImage } from './profileImage.entity';
 
 @Entity()
 export class Users {
@@ -23,6 +30,9 @@ export class Users {
   @Column()
   readingGoal: number;
 
+  @Column()
+  profileImageId: number;
+
   @OneToMany(() => Bookshelf, (bookshelf) => bookshelf.user)
   bookshelf: Bookshelf[];
 
@@ -31,4 +41,7 @@ export class Users {
 
   @OneToMany(() => Upvote, (upvote) => upvote.user)
   upvote: Upvote[];
+
+  @ManyToOne(() => ProfileImage, (profileImage) => profileImage.user)
+  profileImage: ProfileImage;
 }

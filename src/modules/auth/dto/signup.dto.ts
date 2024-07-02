@@ -24,7 +24,9 @@ export class signUpDto {
   })
   @IsNotEmpty()
   @IsString()
-  @MinLength(8)
+  @MinLength(8, {
+    message: 'Password must be longer than or equal to 8 characters.',
+  })
   @Matches(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])/, {
     message:
       'Password needs to have one lowercase, one uppercase, one number and one special character.',

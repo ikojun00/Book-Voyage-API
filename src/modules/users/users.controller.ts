@@ -24,11 +24,6 @@ export class UsersController {
     return this.usersService.getReadingGoal(req.user.sub);
   }
 
-  @Get('/profile')
-  getProfile(@Request() req) {
-    return this.usersService.getProfile(req.user.sub);
-  }
-
   @Patch('/readingGoal')
   changeReadingGoal(@Request() req, @Body() readingGoal: ReadingGoalDto) {
     return this.usersService.changeReadingGoal(req.user.sub, readingGoal);

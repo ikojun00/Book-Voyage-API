@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class PayloadDto {
   @ApiProperty({
@@ -26,4 +32,20 @@ export class PayloadDto {
   @IsNotEmpty()
   @IsString()
   firstName: string;
+
+  @ApiProperty({
+    description: 'A lastname',
+    type: String,
+  })
+  @IsNotEmpty()
+  @IsString()
+  lastName: string;
+
+  @ApiProperty({
+    description: 'A profile image id',
+    type: Number,
+  })
+  @IsOptional()
+  @IsNumber()
+  profileImageId: number;
 }

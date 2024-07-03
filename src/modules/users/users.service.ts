@@ -33,17 +33,6 @@ export class UsersService {
     }
   }
 
-  async getProfile(userId: number) {
-    try {
-      return this.usersRepository
-        .createQueryBuilder('users')
-        .where('users.id = :userId', { userId })
-        .getOne();
-    } catch (error) {
-      throw error;
-    }
-  }
-
   async changeReadingGoal(userId: number, readingGoal: ReadingGoalDto) {
     try {
       const user = await this.usersRepository.findOne({

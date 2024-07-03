@@ -73,6 +73,7 @@ export class ReviewsService {
           'review.comment',
           'user.firstName',
           'user.lastName',
+          'user.profileImageId',
         ])
         .innerJoin('review.user', 'user')
         .where('review.bookId = :bookId AND user.id = :userId', {

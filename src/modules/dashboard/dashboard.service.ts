@@ -34,6 +34,7 @@ export class DashboardService {
           'review.comment',
           'user.firstName',
           'user.lastName',
+          'user.profileImageId',
         ])
         .innerJoin('review.user', 'user')
         .orderBy('review.id', 'DESC')

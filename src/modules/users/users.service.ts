@@ -37,20 +37,8 @@ export class UsersService {
     try {
       return this.usersRepository
         .createQueryBuilder('users')
-        .innerJoinAndSelect('users.profileImage', 'profileImage')
         .where('users.id = :userId', { userId })
         .getOne();
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  async getProfileImages() {
-    try {
-      return this.profileImageRepository
-        .createQueryBuilder('profileImage')
-        .select(['profileImage.id', 'profileImage.image'])
-        .getMany();
     } catch (error) {
       throw error;
     }

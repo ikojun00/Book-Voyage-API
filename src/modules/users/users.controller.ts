@@ -29,11 +29,6 @@ export class UsersController {
     return this.usersService.getProfile(req.user.sub);
   }
 
-  @Get('/profileImages')
-  getProfileImages() {
-    return this.usersService.getProfileImages();
-  }
-
   @Patch('/readingGoal')
   changeReadingGoal(@Request() req, @Body() readingGoal: ReadingGoalDto) {
     return this.usersService.changeReadingGoal(req.user.sub, readingGoal);

@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from '../../entities/users.entity';
@@ -63,6 +67,11 @@ export class UsersService {
 
       if (!user) {
         throw new NotFoundException('User not found');
+      }
+
+      const email = await this.findOne(usersInfo.email);
+      if (email) {
+        throw new UnauthorizedException('Email already exists!');
       }
 
       Object.assign(user, usersInfo);

@@ -6,4 +6,4 @@ A REST API for Book Voyage.
 
 To understand and interact with API, use project`s Swagger specification.
 
-[Swagger Specification](https://book-api-txe4.onrender.com/docs)
+[Swagger Specification](https://book-voyage-api.onrender.com/docs)
